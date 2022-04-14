@@ -1,9 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { withRouter, Route, Switch, Redirect } from "react-router-dom";
-import { Login, Signup } from "./components/AuthForm";
-import Home from "./components/Home";
-import { me } from "./store";
+
 import { loadFact } from "./store";
 
 /**
@@ -14,6 +12,10 @@ class Routes extends Component {
     super();
     this.state = {
       answer: 0,
+      guess: "",
+      points: 0,
+      hint: "hint",
+      try: 10,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -28,7 +30,21 @@ class Routes extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    this.props.updateCampusThuck({ ...this.state, id: this.props.id });
+    if (this.state.guess == this.state.answer) {
+      this.setState({
+        guess: 0,
+        points: this.state.points + 1,
+        hint: "woo hoo! Great job!",
+      });
+      this.props.loadFactThuck();
+    }
+
+    if (this.state.guess < this.state.answer) {
+      this.setState({ hint: "too low, try again!", try: this.state.try - 1 });
+    }
+    if (this.state.guess > this.state.answer) {
+      this.setState({ hint: "too high, try again!", try: this.state.try - 1 });
+    }
   }
 
   componentDidMount() {
@@ -41,15 +57,31 @@ class Routes extends Component {
       this.state.answer = this.props.fact.split(" ")[0];
       console.log(this.state);
     }
+    if (this.state.time < 0) {
+      //end game
+    }
   }
 
   render() {
+    let { answer, guess, time, hint } = this.state;
+    const { handleSubmit, handleChange } = this;
+    /*  let countdown = setInterval((time) => {
+      this.setState({ time: this.state.time - 1 });
+    }, 1000); */
+
     return (
       <>
+        Tries remaining: {this.state.try}
         <div>
           ___ {this.props.fact.substr(this.props.fact.indexOf(" ") + 1)}
         </div>
-        {<button onClick={() => this.props.loadFactThuck()}>New fact</button>}
+        <form id="submit-answer" onSubmit={handleSubmit}>
+          <label htmlFor="answer">enter a number</label>
+          <input name="guess" onChange={handleChange} value={guess} />
+          <button type="submit">Submit answer</button>
+        </form>
+        TOTAL POINTS: {this.state.points}
+        <h2>{hint}</h2>
       </>
     );
   }
