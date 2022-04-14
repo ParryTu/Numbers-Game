@@ -5,9 +5,8 @@ import { logout } from "../store";
 
 let Navbar = ({ handleClick, isLoggedIn }) => (
   <div>
-    <h1>Numbers Game</h1>
-    <h2>Can you find the right number?</h2>
-    <hr />
+    <h1>Parry's Numbers Game </h1>
+    <h2>Choose your difficulty and guess the correct number</h2>
   </div>
 );
 

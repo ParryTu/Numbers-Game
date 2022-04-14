@@ -16,6 +16,8 @@ class Routes extends Component {
       points: 0,
       hint: "hint",
       try: 10,
+      start: "",
+      mode: 20,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -33,10 +35,11 @@ class Routes extends Component {
     if (this.state.guess == this.state.answer) {
       this.setState({
         guess: 0,
-        points: this.state.points + 1,
+        points: this.state.points + this.state.try,
         hint: "woo hoo! Great job!",
+        try: 10,
       });
-      this.props.loadFactThuck();
+      this.props.loadFactThuck(this.state.mode);
     }
 
     if (this.state.guess < this.state.answer) {
@@ -48,40 +51,83 @@ class Routes extends Component {
   }
 
   componentDidMount() {
-    this.props.loadFactThuck();
+    this.props.loadFactThuck(20);
   }
 
   componentDidUpdate(prevProps) {
-    console.log(prevProps);
     if (this.props.fact.split(" ")[0] != this.state.answer) {
       this.state.answer = this.props.fact.split(" ")[0];
       console.log(this.state);
     }
-    if (this.state.time < 0) {
-      //end game
+    if (this.state.try == 0) {
+      this.setState({
+        hint: `Game over! Your score was: ${this.state.points} points!!`,
+        points: 0,
+        try: 10,
+        start: "Refresh to Play again",
+      });
     }
   }
 
   render() {
-    let { answer, guess, time, hint } = this.state;
+    let { answer, start, guess, time, hint, mode } = this.state;
     const { handleSubmit, handleChange } = this;
-    /*  let countdown = setInterval((time) => {
-      this.setState({ time: this.state.time - 1 });
-    }, 1000); */
 
     return (
       <>
-        Tries remaining: {this.state.try}
-        <div>
+        CHOOSE DIFFICULTY:
+        <div id="buttons">
+          <button
+            className="tooltip"
+            onClick={() => {
+              this.setState({ mode: 20, points: 0, hint: "hint", try: 10 });
+              this.props.loadFactThuck(mode);
+            }}
+          >
+            {" "}
+            Easy <span className="tooltiptext">wddw</span>
+          </button>
+          <button
+            className="tooltip"
+            onClick={() => {
+              this.setState({ mode: 100, points: 0, hint: "hint", try: 10 });
+              this.props.loadFactThuck(mode);
+            }}
+          >
+            {" "}
+            Hard<span className="tooltiptext">wddw</span>
+          </button>
+          <button
+            className="tooltip"
+            onClick={() => {
+              this.setState({
+                mode: "random",
+                points: 0,
+                hint: "hint",
+                try: 10,
+              });
+              this.props.loadFactThuck(mode);
+            }}
+          >
+            {" "}
+            Grounded <span className="tooltiptext">wddw</span>
+          </button>
+        </div>
+        <hr />
+        <p>
+          Tries remaining: <span>{this.state.try}</span>
+        </p>
+        <div id="fact">
           ___ {this.props.fact.substr(this.props.fact.indexOf(" ") + 1)}
         </div>
         <form id="submit-answer" onSubmit={handleSubmit}>
-          <label htmlFor="answer">enter a number</label>
+          <label htmlFor="answer"></label>
           <input name="guess" onChange={handleChange} value={guess} />
           <button type="submit">Submit answer</button>
         </form>
         TOTAL POINTS: {this.state.points}
         <h2>{hint}</h2>
+        <h1 id="start">{start}</h1>
       </>
     );
   }
@@ -98,7 +144,7 @@ const mapState = (reduxState) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    loadFactThuck: () => dispatch(loadFact()),
+    loadFactThuck: (mode) => dispatch(loadFact(mode)),
   };
 };
 

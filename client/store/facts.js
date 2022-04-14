@@ -14,23 +14,25 @@ const setFact = (fact) => ({ type: GET_FACT, fact });
  * THUNK CREATORS
  */
 
-export const loadFact = () => async (dispatch) => {
-  try {
-    let num = Math.floor(Math.random() * 100);
-    const triviaFact = await jquery.getJSON(
-      `http://numbersapi.com/${num}/trivia`,
-      function (data) {
-        console.log(data);
-      }
-    );
+export const loadFact =
+  (mode = 20) =>
+  async (dispatch) => {
+    try {
+      let num = Math.floor(Math.random() * mode) || mode;
+      const triviaFact = await jquery.getJSON(
+        `http://numbersapi.com/${num}/trivia`,
+        function (data) {
+          console.log(data);
+        }
+      );
 
-    console.log(triviaFact.promise.responseText);
-    return dispatch(setFact(triviaFact.promise.responseText));
-  } catch (err) {
-    const triviaFact = err;
-    return dispatch(setFact(triviaFact.responseText));
-  }
-};
+      console.log(triviaFact.promise.responseText);
+      return dispatch(setFact(triviaFact.promise.responseText));
+    } catch (err) {
+      const triviaFact = err;
+      return dispatch(setFact(triviaFact.responseText));
+    }
+  };
 
 /**
  * REDUCER
