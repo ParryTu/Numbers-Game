@@ -26,15 +26,16 @@ class Routes extends Component {
 
   handleChange(evt) {
     this.setState({
-      [evt.target.name]: evt.target.value,
+      guess: evt.target.value,
     });
+    console.log(this.state);
   }
 
   handleSubmit(evt) {
     evt.preventDefault();
     if (this.state.guess == this.state.answer) {
       this.setState({
-        guess: 0,
+        guess: "",
         points: this.state.points + this.state.try,
         hint: "woo hoo! Great job!",
         try: 10,
@@ -75,7 +76,7 @@ class Routes extends Component {
 
     return (
       <>
-        CHOOSE DIFFICULTY:
+        Difficulty Selection:
         <div id="buttons">
           <button
             className="tooltip"
@@ -85,7 +86,10 @@ class Routes extends Component {
             }}
           >
             {" "}
-            Easy <span className="tooltiptext">wddw</span>
+            Easy{" "}
+            <span className="tooltiptext">
+              For beginners. Numbers are limited and relatively easy to guess.
+            </span>
           </button>
           <button
             className="tooltip"
@@ -95,7 +99,11 @@ class Routes extends Component {
             }}
           >
             {" "}
-            Hard<span className="tooltiptext">wddw</span>
+            Hard
+            <span className="tooltiptext">
+              For experienced players those who want a considerable challenge.
+              Includes 4x the amount of trivia numbers of Easy mode.
+            </span>
           </button>
           <button
             className="tooltip"
@@ -110,7 +118,12 @@ class Routes extends Component {
             }}
           >
             {" "}
-            Grounded <span className="tooltiptext">wddw</span>
+            Grounded{" "}
+            <span className="tooltiptext">
+              For only the most hardcore. Leverages the infinite set of counting
+              numbers to provide one of the most challenging gaming experiences
+              on this generation of browsers.
+            </span>
           </button>
         </div>
         <hr />
@@ -122,7 +135,7 @@ class Routes extends Component {
         </div>
         <form id="submit-answer" onSubmit={handleSubmit}>
           <label htmlFor="answer"></label>
-          <input name="guess" onChange={handleChange} value={guess} />
+          <input name="guess" value={guess} onChange={handleChange} />
           <button type="submit">Submit answer</button>
         </form>
         TOTAL POINTS: {this.state.points}

@@ -15,7 +15,7 @@
   cursor: pointer;
   background: #e7e7e7;
   border: none;
-  padding: 1.5rem 3rem;
+  padding: 0.15rem 0.3rem;
   margin: 0;
   font-family: inherit;
   font-size: inherit;
@@ -42,6 +42,7 @@ label {
 nav a {
   display: inline-block;
   margin: 1em;
+  size: ;
 }
 #submit-answer {
   margin: 15px 0;
@@ -66,22 +67,6 @@ form div {
   border-right: 5px solid rgba(30, 30, 30, 0.8);
 }
 
-.image {
-  position: relative;
-}
-
-.image:hover:after {
-  position: absolute;
-  content: attr(title);
-  display: inline-block;
-  font-size: small;
-  left: 0px;
-  top: 0px;
-  padding: 5px;
-  background-color: black;
-  color: white;
-}
-
 .tooltip {
   position: relative;
   display: inline-block;
@@ -90,12 +75,13 @@ form div {
 
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 120px;
+  width: 420px;
   background-color: black;
   color: #fff;
   text-align: center;
   border-radius: 6px;
   padding: 5px 0;
+  font-size: small;
 
   /* Position the tooltip */
   position: absolute;
