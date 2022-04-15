@@ -1,3 +1,5 @@
+VIDEO WALKTHROUGH: https://youtu.be/jmwMlKqrg9U
+
 Life is a numbers game!
 
 In this simple web game, a player tries to guess the correct number in a piece of trivia.
