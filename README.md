@@ -61,4 +61,4 @@ It's that easy!
 
 Check out who contributed to this project:
 
-- [Parry Tu](https://github.com/parryt)
+- [Parry Tu](https://github.com/parrytu)
